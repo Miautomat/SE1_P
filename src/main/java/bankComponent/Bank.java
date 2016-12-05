@@ -1,9 +1,15 @@
-package businessComponent;
+package bankComponent;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import accountComponent.Account;
 
 /**
  * Ich habe nicht ganz verstanden, was mit der FilialNr gemeint ist. Sie könnte
@@ -15,7 +21,12 @@ import javax.persistence.Id;
 @Entity
 public class Bank {
     
-    private static final String bankNr_Pattern = "{5}[0-9]";
+    /**
+     * Regex that allows only a String of numbers 5 characters long
+     * 
+     * @see http://stackoverflow.com/questions/6332145/java-regex-how-to-read-numbers-only-5-to-7-digits
+     */
+    private static final String bankNr_Pattern = "^[0-9]{5}$";
     
     @Column(unique = true)
     private String bankNr;
@@ -23,6 +34,9 @@ public class Bank {
     @Id
     @GeneratedValue
     private Integer id;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Account> accounts;
     
     private int numberOfBookings;
     
@@ -42,6 +56,14 @@ public class Bank {
     
     public void decreaseNumberOfBookings() {
         numberOfBookings--;
+    }
+    
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+    
+    public void addAccount(Account newAccount) {
+        accounts.add(newAccount);
     }
     
     public int getNumberOfBookings() {

@@ -18,7 +18,7 @@ import util.AccountNrType;
 @Entity
 public class Account {
     private AccountNrType accountNr;
-    private long budget;
+    private final int budget;
     
     @Id
     @GeneratedValue
@@ -28,32 +28,41 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Booking> bookings = new ArrayList<>();
     
-    public Account() {}
+    public Account() {
+        budget = 0;
+    }
     
-    public Account(AccountNrType accountNr, long budget) {
+    public Account(AccountNrType accountNr, int budget) {
         this.accountNr = accountNr;
         this.budget = budget;
     }
     
-    public Account(String accountNr, long budget) {
+    public Account(String accountNr, int budget) {
         this.accountNr = new AccountNrType(accountNr);
         this.budget = budget;
+    }
+    
+    public Account(AccountNrType accountNr) {
+        this.accountNr = accountNr;
+        this.budget = 0;
+    }
+    
+    public Account(String accountNr) {
+        this.accountNr = new AccountNrType(accountNr);
+        this.budget = 0;
     }
     
     public AccountNrType getAccountNr() {
         return accountNr;
     }
     
-    public void setAccountNr(AccountNrType accountNr) {
-        this.accountNr = accountNr;
-    }
-    
-    public long getBudget() {
+    /**
+     * im Aufgabentext wird gefordert, dass sich der Kontostand
+     * 
+     * @return
+     */
+    public int getBudget() {
         return budget;
-    }
-    
-    public void setBudget(long budget) {
-        this.budget = budget;
     }
     
     public Integer getId() {
@@ -64,12 +73,20 @@ public class Account {
         return bookings;
     }
     
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
+    public Booking getBooking(int id) {
+        if (id <= 0)
+            throw new IllegalArgumentException("bookingId must be > 0");
+        
+        for (Booking b : bookings) {
+            if (b.getId() == id) {
+                return b;
+            }
+        }
+        return null; // TODO unschön, eher Exception werfen?
     }
     
     public void addBooking(Booking booking) {
-        this.bookings.add(booking);
+        bookings.add(booking);
     }
     
     @Override
@@ -78,7 +95,7 @@ public class Account {
         int result = 1;
         result = prime * result + ((accountNr == null) ? 0 : accountNr.hashCode());
         result = prime * result + ((bookings == null) ? 0 : bookings.hashCode());
-        result = prime * result + (int) (budget ^ (budget >>> 32));
+        result = prime * result + (budget ^ (budget >>> 32));
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }

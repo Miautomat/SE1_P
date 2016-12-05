@@ -32,24 +32,12 @@ public class Booking {
         return amount;
     }
     
-    public void setAmount(long amount) {
-        this.amount = amount;
-    }
-    
     public Integer getId() {
         return id;
     }
     
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
     public Account getAccount() {
         return account;
-    }
-    
-    public void setAccount(Account account) {
-        this.account = account;
     }
     
     @Override

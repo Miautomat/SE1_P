@@ -7,10 +7,13 @@ import org.junit.Test;
 
 import util.AccountNrType;
 
+/**
+ * @author Mieke Narjes 04.12.16
+ */
 public class AccountTest {
     String s;
     AccountNrType a1;
-    long budget;
+    int budget;
     
     @Before
     public void setUp() throws Exception {
