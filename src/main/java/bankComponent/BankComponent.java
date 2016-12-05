@@ -3,9 +3,14 @@ package bankComponent;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import accountComponent.Account;
 
+/**
+ * @author Mieke Narjes 05.12.16
+ */
+@Component
 public class BankComponent implements BankComponentInterface {
     
     private BankRepository bankRepository;

@@ -18,8 +18,32 @@ public class AccountComponentTest {
     public void tearDown() throws Exception {}
     
     @Test
-    public void test() {
+    public void testGetAllAccounts() {
         fail("Not yet implemented");
     }
     
+    @Test
+    public void testDeleteAccount() {
+        fail("Not yet implemented");
+    }
+    
+    @Test
+    public void testGetAccount() {
+        fail("Not yet implemented");
+    }
+    
+    @Test
+    public void testAddAccount() {
+        fail("Not yet implemented");
+    }
+    
+    @Test
+    public void testProceedTransfer() {
+        fail("Not yet implemented");
+    }
+    
+    @Test
+    public void testCalculateBudget() {
+        fail("Not yet implemented");
+    }
 }

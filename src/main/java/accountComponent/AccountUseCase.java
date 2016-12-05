@@ -8,6 +8,9 @@ import bankComponent.Bank;
 import bankComponent.BankComponentInterface;
 import bankComponent.BankNotFoundException;
 
+/**
+ * @author Mieke Narjes 05.12.16
+ */
 public class AccountUseCase implements AccountUseCaseInterface {
     
     // Autowiring via Constructor

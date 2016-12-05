@@ -2,6 +2,9 @@ package accountComponent;
 
 import bankComponent.BankNotFoundException;
 
+/**
+ * @author Mieke Narjes 05.12.16
+ */
 public interface AccountUseCaseInterface {
     
     /**

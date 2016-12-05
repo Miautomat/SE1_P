@@ -3,6 +3,7 @@ package accountComponent;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import bankComponent.BankComponentInterface;
 import bankComponent.BankNotFoundException;
@@ -10,6 +11,7 @@ import bankComponent.BankNotFoundException;
 /**
  * @author Mieke Narjes 05.12.16
  */
+@Component
 public class AccountComponent implements AccountComponentInterface {
     
     // Autowiring via Constructor
