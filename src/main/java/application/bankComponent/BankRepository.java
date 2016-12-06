@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface BankRepository extends JpaRepository<Bank, Integer> {
-    Bank findByBankNr(String bankNr);
+    Bank findByBankNr(int i);
 }

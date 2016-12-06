@@ -9,12 +9,12 @@ public interface BankComponentInterface {
     /**
      * Liefert die Anzahl der Buchungen der jeweiligen Bank
      */
-    int getNumberOfBookings(String bankNr) throws BankNotFoundException;
+    int getBookingStatistic(int bankNr) throws BankNotFoundException;
     
     /**
      * Erhöht die Buchungsstatistik der Filiale um 1
      */
-    void increaseBookingStatistic(String bankNr) throws BankNotFoundException;
+    void increaseBookingStatistic(int bankNr) throws BankNotFoundException;
     
     void increaseBookingStatistic(Bank bank) throws BankNotFoundException;
     
@@ -28,12 +28,14 @@ public interface BankComponentInterface {
     /**
      * Löscht eine Bank.
      */
-    void deleteBank(int bankId);
+    void deleteBank(int bankNr);
+    
+    void deleteBank(Bank bank);
     
     /**
      * sucht eine Bank und gibt ihn zurück
      */
-    Bank getBank(int bankId);
+    Bank getBank(int bankNr);
     
     /**
      * fügt der Komponente eine Bank hinzu

@@ -18,7 +18,7 @@ public class Bank {
     @GeneratedValue
     private Integer id;
     
-    private int numberOfBookings;
+    private int bookingStatistic;
     
     public Bank() {}
     
@@ -27,19 +27,19 @@ public class Bank {
             throw new IllegalArgumentException("not a valid Bank Number");
         }
         this.bankNr = bankNr;
-        numberOfBookings = 0;
+        bookingStatistic = 0;
     }
     
     public void increaseNumberOfBookings() {
-        numberOfBookings++;
+        bookingStatistic++;
     }
     
     public void decreaseNumberOfBookings() {
-        numberOfBookings--;
+        bookingStatistic--;
     }
     
-    public int getNumberOfBookings() {
-        return numberOfBookings;
+    public int getBookingStatistic() {
+        return bookingStatistic;
     }
     
     private static boolean isValidBankNr(int bankNr) {
@@ -60,7 +60,7 @@ public class Bank {
         int result = 1;
         result = prime * result + ((bankNr == null) ? 0 : bankNr.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + numberOfBookings;
+        result = prime * result + bookingStatistic;
         return result;
     }
     
@@ -83,14 +83,14 @@ public class Bank {
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (numberOfBookings != other.numberOfBookings)
+        if (bookingStatistic != other.bookingStatistic)
             return false;
         return true;
     }
     
     @Override
     public String toString() {
-        return "Bank [bankNr=" + bankNr + ", id=" + id + ", numberOfBookings=" + numberOfBookings
+        return "Bank [bankNr=" + bankNr + ", id=" + id + ", bookingStatistic=" + bookingStatistic
             + "]";
     }
 }

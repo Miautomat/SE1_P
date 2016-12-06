@@ -19,15 +19,15 @@ public class BankComponent implements BankComponentInterface {
     }
     
     @Override
-    public int getNumberOfBookings(String bankNr) throws BankNotFoundException {
+    public int getBookingStatistic(int bankNr) throws BankNotFoundException {
         Bank bank = bankRepository.findByBankNr(bankNr);
         if (bank == null)
             throw new BankNotFoundException(bankNr);
-        return bank.getNumberOfBookings();
+        return bank.getBookingStatistic();
     }
     
     @Override
-    public void increaseBookingStatistic(String bankNr) throws BankNotFoundException {
+    public void increaseBookingStatistic(int bankNr) throws BankNotFoundException {
         Bank bank = bankRepository.findByBankNr(bankNr);
         if (bank == null)
             throw new BankNotFoundException(bankNr);
@@ -36,9 +36,8 @@ public class BankComponent implements BankComponentInterface {
     }
     
     @Override
-    public void increaseBookingStatistic(Bank bankToIncrease) throws BankNotFoundException {
-        Bank bank = bankToIncrease;
-        if (bank == null)
+    public void increaseBookingStatistic(Bank bank) throws BankNotFoundException {
+        if (bankRepository.findByBankNr(bank.getBankNr()) == null)
             throw new BankNotFoundException();
         bank.increaseNumberOfBookings();
         bankRepository.save(bank);
@@ -50,19 +49,27 @@ public class BankComponent implements BankComponentInterface {
     }
     
     @Override
-    public void deleteBank(int bankId) {
-        if (bankId <= 0) {
+    public void deleteBank(int bankNr) {
+        if (bankNr <= 0) {
             throw new IllegalArgumentException("bankId must be > 0");
         }
-        bankRepository.delete(bankId);
+        bankRepository.delete(bankRepository.findByBankNr(bankNr).getId());
     }
     
     @Override
-    public Bank getBank(int bankId) {
-        if (bankId <= 0) {
+    public void deleteBank(Bank bank) {
+        if (bankRepository.findByBankNr(bank.getBankNr()) == null) {
+            throw new IllegalArgumentException("bank must not be null");
+        }
+        bankRepository.delete(bank.getId());
+    }
+    
+    @Override
+    public Bank getBank(int bankNr) {
+        if (bankNr <= 0) {
             throw new IllegalArgumentException("bankId must be > 0");
         }
-        return bankRepository.findOne(bankId);
+        return bankRepository.findByBankNr(bankNr);
     }
     
     @Override

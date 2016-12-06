@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import application.bankComponent.BankComponentInterface;
 import application.bankComponent.BankNotFoundException;
+import application.util.AccountNrType;
 
 /**
  * @author Mieke Narjes 05.12.16
@@ -31,7 +32,7 @@ public class AccountComponent implements AccountComponentInterface {
     }
     
     @Override
-    public void deleteAccount(int accountId) {
+    public void deleteAccount(int accountId) throws IllegalArgumentException {
         if (accountId <= 0) {
             throw new IllegalArgumentException("accountId must be > 0");
         }
@@ -39,7 +40,15 @@ public class AccountComponent implements AccountComponentInterface {
     }
     
     @Override
-    public Account getAccount(int accountId) {
+    public void deleteAccount(Account account) throws IllegalArgumentException {
+        if (!getAllAccounts().contains(account)) {
+            throw new IllegalArgumentException("account must be present");
+        }
+        accountRepository.delete(account);
+    }
+    
+    @Override
+    public Account getAccount(int accountId) throws IllegalArgumentException {
         if (accountId <= 0) {
             throw new IllegalArgumentException("accountId must be > 0");
         }
@@ -47,7 +56,7 @@ public class AccountComponent implements AccountComponentInterface {
     }
     
     @Override
-    public void addAccount(Account newAccount) {
+    public void addAccount(Account newAccount) throws IllegalArgumentException {
         if (newAccount == null) {
             throw new IllegalArgumentException("newAccount must not be null");
         }
@@ -55,13 +64,29 @@ public class AccountComponent implements AccountComponentInterface {
     }
     
     @Override
-    public void proceedTransfer(int addressorId, int recipientId, int amount)
+    public void proceedTransfer(AccountNrType addressorNr, AccountNrType recipientNr, int amount)
         throws AccountNotFoundException, BankNotFoundException {
-        accountUseCaseInterface.transfer(addressorId, recipientId, amount);
+        accountUseCaseInterface.transfer(addressorNr, recipientNr, amount);
     }
     
     @Override
-    public int calculateBudget(int accountId) {
+    public void proceedTransfer(Account addressor, Account recipient, int amount)
+        throws AccountNotFoundException, BankNotFoundException {
+        accountUseCaseInterface.transfer(addressor, recipient, amount);
+    }
+    
+    @Override
+    public int calculateBudget(int accountId) throws IllegalArgumentException {
         return accountUseCaseInterface.getActualBudget(accountId);
+    }
+    
+    @Override
+    public int calculateBudget(AccountNrType accountNr) throws IllegalArgumentException {
+        return accountUseCaseInterface.getActualBudget(accountNr);
+    }
+    
+    @Override
+    public int calculateBudget(Account account) throws IllegalArgumentException {
+        return accountUseCaseInterface.getActualBudget(account);
     }
 }

@@ -24,11 +24,13 @@ public class BankTest {
         b3 = new Bank(s2);
     }
     
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBank() {
-        
         assertEquals(s1, b1.getBankNr());
-        
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testBankOnInvalidBankNrValue() {
         // throws Exception
         new Bank(s3);
     }

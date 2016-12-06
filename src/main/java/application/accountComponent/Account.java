@@ -36,25 +36,37 @@ public class Account {
     // Problem zu verhindern
     // nicht immer sinnvoll, Performancegründe
     
-    public Account(Bank bank, AccountNrType accountNr, int budget) {
+    public Account(Bank bank, AccountNrType accountNr, int budget) throws IllegalArgumentException {
+        if (bank == null) {
+            throw new IllegalArgumentException("bank must not be null");
+        }
         this.bank = bank;
         this.accountNr = accountNr;
         this.budget = budget;
     }
     
-    public Account(Bank bank, String accountNr, int budget) {
+    public Account(Bank bank, String accountNr, int budget) throws IllegalArgumentException {
+        if (bank == null) {
+            throw new IllegalArgumentException("bank must not be null");
+        }
         this.bank = bank;
         this.accountNr = new AccountNrType(accountNr);
         this.budget = budget;
     }
     
-    public Account(Bank bank, AccountNrType accountNr) {
+    public Account(Bank bank, AccountNrType accountNr) throws IllegalArgumentException {
+        if (bank == null) {
+            throw new IllegalArgumentException("bank must not be null");
+        }
         this.bank = bank;
         this.accountNr = accountNr;
         this.budget = 0;
     }
     
-    public Account(Bank bank, String accountNr) {
+    public Account(Bank bank, String accountNr) throws IllegalArgumentException {
+        if (bank == null) {
+            throw new IllegalArgumentException("bank must not be null");
+        }
         this.bank = bank;
         this.accountNr = new AccountNrType(accountNr);
         this.budget = 0;
@@ -95,7 +107,7 @@ public class Account {
         return bookings;
     }
     
-    public Booking getBooking(int id) {
+    public Booking getBooking(int id) throws IllegalArgumentException {
         if (id <= 0)
             throw new IllegalArgumentException("bookingId must be > 0");
         

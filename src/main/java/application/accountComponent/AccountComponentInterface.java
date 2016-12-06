@@ -3,6 +3,7 @@ package application.accountComponent;
 import java.util.List;
 
 import application.bankComponent.BankNotFoundException;
+import application.util.AccountNrType;
 
 public interface AccountComponentInterface {
     /**
@@ -13,28 +14,33 @@ public interface AccountComponentInterface {
     /**
      * Deletes an Account
      */
-    void deleteAccount(int accountId);
+    void deleteAccount(int accountId) throws IllegalArgumentException;
+    
+    void deleteAccount(Account account) throws IllegalArgumentException;
     
     /**
      * searches for an account and returns it
      */
-    Account getAccount(int accountId);
+    Account getAccount(int accountId) throws IllegalArgumentException;
     
     /**
      * adds an account to the component
      */
-    void addAccount(Account newAccount);
+    void addAccount(Account newAccount) throws IllegalArgumentException;
     
     /**
      * proceeds a money transfer which is implemented in the AccountUseCase
      * 
-     * @param addressorId
-     * @param recipientId
+     * @param addressorNr
+     * @param recipientNr
      * @param amount
      * @throws AccountNotFoundException
      * @throws BankNotFoundException
      */
-    void proceedTransfer(int addressorId, int recipientId, int amount)
+    void proceedTransfer(AccountNrType addressorNr, AccountNrType recipientNr, int amount)
+        throws AccountNotFoundException, BankNotFoundException;
+    
+    void proceedTransfer(Account addressor, Account recipient, int amount)
         throws AccountNotFoundException, BankNotFoundException;
     
     /**
@@ -43,5 +49,9 @@ public interface AccountComponentInterface {
      * @param accountId
      * @return
      */
-    int calculateBudget(int accountId);
+    int calculateBudget(int accountId) throws IllegalArgumentException;
+    
+    int calculateBudget(AccountNrType accountNr) throws IllegalArgumentException;
+    
+    int calculateBudget(Account account) throws IllegalArgumentException;
 }
