@@ -13,6 +13,10 @@ public class AccountNrType implements Serializable {
     private static final String AccountNr_Pattern = "[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}";
     private String accountNr;
     
+    private AccountNrType() {
+        System.out.println("standard");
+    }
+    
     public AccountNrType(String accountNr) {
         if (!isValidAccountNr(accountNr)) {
             throw new IllegalArgumentException("not a valid accountNr");
@@ -51,5 +55,10 @@ public class AccountNrType implements Serializable {
         } else if (!accountNr.equals(other.accountNr))
             return false;
         return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "AccountNrType [accountNr=" + accountNr + "]";
     }
 }

@@ -20,7 +20,7 @@ public class Bank {
     
     private int bookingStatistic;
     
-    public Bank() {}
+    private Bank() {}
     
     public Bank(int bankNr) {
         if (!isValidBankNr(bankNr)) {
