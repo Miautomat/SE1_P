@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="application.util.AccountNrTypeTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-12-06T12:28:17" hostname="ws-67-156.haw-1x.haw-hamburg.de" time="0.001">
+  <properties/>
+  <testcase name="testIsValidAccountNr" classname="application.util.AccountNrTypeTest" time="0.001"/>
+  <testcase name="testEquals" classname="application.util.AccountNrTypeTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
