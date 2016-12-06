@@ -1,4 +1,4 @@
-package businessComponent;
+package bankComponent;
 
 import static org.junit.Assert.fail;
 

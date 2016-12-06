@@ -1,48 +1,28 @@
 package bankComponent;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import accountComponent.Account;
 
 /**
- * Ich habe nicht ganz verstanden, was mit der FilialNr gemeint ist. Sie könnte
- * meiner Meinung nach auch als ID dienen, allerdings weiß ich nicht, wie sich
- * die Länge 5 bei der ID erzwingen lässt (außer in SQL)
- * 
  * @author Mieke Narjes 04.12.16
  */
 @Entity
 public class Bank {
     
-    /**
-     * Regex that allows only a String of numbers 5 characters long
-     * 
-     * @see http://stackoverflow.com/questions/6332145/java-regex-how-to-read-numbers-only-5-to-7-digits
-     */
-    private static final String bankNr_Pattern = "^[0-9]{5}$";
-    
     @Column(unique = true)
-    private String bankNr;
+    private Integer bankNr;
     
     @Id
     @GeneratedValue
     private Integer id;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Account> accounts;
-    
     private int numberOfBookings;
     
     public Bank() {}
     
-    public Bank(String bankNr) {
+    public Bank(int bankNr) {
         if (!isValidBankNr(bankNr)) {
             throw new IllegalArgumentException("not a valid Bank Number");
         }
@@ -58,23 +38,15 @@ public class Bank {
         numberOfBookings--;
     }
     
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-    
-    public void addAccount(Account newAccount) {
-        accounts.add(newAccount);
-    }
-    
     public int getNumberOfBookings() {
         return numberOfBookings;
     }
     
-    private static boolean isValidBankNr(String bankNr) {
-        return bankNr.matches(bankNr_Pattern);
+    private static boolean isValidBankNr(int bankNr) {
+        return bankNr <= 99999;
     }
     
-    public String getBankNr() {
+    public int getBankNr() {
         return bankNr;
     }
     
@@ -86,9 +58,9 @@ public class Bank {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + numberOfBookings;
         result = prime * result + ((bankNr == null) ? 0 : bankNr.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + numberOfBookings;
         return result;
     }
     
@@ -101,8 +73,6 @@ public class Bank {
         if (getClass() != obj.getClass())
             return false;
         Bank other = (Bank) obj;
-        if (numberOfBookings != other.numberOfBookings)
-            return false;
         if (bankNr == null) {
             if (other.bankNr != null)
                 return false;
@@ -113,12 +83,14 @@ public class Bank {
                 return false;
         } else if (!id.equals(other.id))
             return false;
+        if (numberOfBookings != other.numberOfBookings)
+            return false;
         return true;
     }
     
     @Override
     public String toString() {
-        return "Bank [bankNr=" + bankNr + ", id=" + id + ", NumberOfBookings=" + numberOfBookings
+        return "Bank [bankNr=" + bankNr + ", id=" + id + ", numberOfBookings=" + numberOfBookings
             + "]";
     }
 }

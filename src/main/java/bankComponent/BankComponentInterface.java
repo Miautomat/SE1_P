@@ -2,8 +2,6 @@ package bankComponent;
 
 import java.util.List;
 
-import accountComponent.Account;
-
 /**
  * @author Mieke Narjes 05.12.16
  */
@@ -17,6 +15,8 @@ public interface BankComponentInterface {
      * Erhöht die Buchungsstatistik der Filiale um 1
      */
     void increaseBookingStatistic(String bankNr) throws BankNotFoundException;
+    
+    void increaseBookingStatistic(Bank bank) throws BankNotFoundException;
     
     /**
      * Liefert alle Banken.
@@ -39,6 +39,4 @@ public interface BankComponentInterface {
      * fügt der Komponente eine Bank hinzu
      */
     void addBank(Bank newBank);
-    
-    public void addAccount(int bankId, Account newAccount) throws BankNotFoundException;
 }

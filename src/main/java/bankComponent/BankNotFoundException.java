@@ -13,4 +13,8 @@ public class BankNotFoundException extends Exception {
     public BankNotFoundException(int bankId) {
         super("Bank with ID " + bankId + "was not found");
     }
+    
+    public BankNotFoundException() {
+        super("Bank was not found");
+    }
 }

@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import bankComponent.Bank;
 import util.AccountNrType;
 
 /**
@@ -28,28 +30,44 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Booking> bookings = new ArrayList<>();
     
-    public Account() {
-        budget = 0;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Bank bank;
     
-    public Account(AccountNrType accountNr, int budget) {
+    public Account(Bank bank, AccountNrType accountNr, int budget) {
+        this.bank = bank;
         this.accountNr = accountNr;
         this.budget = budget;
     }
     
-    public Account(String accountNr, int budget) {
+    public Account(Bank bank, String accountNr, int budget) {
+        this.bank = bank;
         this.accountNr = new AccountNrType(accountNr);
         this.budget = budget;
     }
     
-    public Account(AccountNrType accountNr) {
+    public Account(Bank bank, AccountNrType accountNr) {
+        this.bank = bank;
         this.accountNr = accountNr;
         this.budget = 0;
     }
     
-    public Account(String accountNr) {
+    public Account(Bank bank, String accountNr) {
+        this.bank = bank;
         this.accountNr = new AccountNrType(accountNr);
         this.budget = 0;
+    }
+    
+    public Bank getBank() {
+        return bank;
+    }
+    
+    /**
+     * allowing to change Bank in case of moving
+     * 
+     * @param bank
+     */
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
     
     public AccountNrType getAccountNr() {
@@ -57,7 +75,8 @@ public class Account {
     }
     
     /**
-     * im Aufgabentext wird gefordert, dass sich der Kontostand
+     * Budget is only the 'start-Amount' of the Account. The actual Budget will
+     * be calculated in AccountUseCase
      * 
      * @return
      */
@@ -94,8 +113,9 @@ public class Account {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((accountNr == null) ? 0 : accountNr.hashCode());
+        result = prime * result + ((bank == null) ? 0 : bank.hashCode());
         result = prime * result + ((bookings == null) ? 0 : bookings.hashCode());
-        result = prime * result + (budget ^ (budget >>> 32));
+        result = prime * result + budget;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
@@ -113,6 +133,11 @@ public class Account {
             if (other.accountNr != null)
                 return false;
         } else if (!accountNr.equals(other.accountNr))
+            return false;
+        if (bank == null) {
+            if (other.bank != null)
+                return false;
+        } else if (!bank.equals(other.bank))
             return false;
         if (bookings == null) {
             if (other.bookings != null)
@@ -132,7 +157,6 @@ public class Account {
     @Override
     public String toString() {
         return "Account [accountNr=" + accountNr + ", budget=" + budget + ", id=" + id
-            + ", bookings=" + bookings + "]";
+            + ", bookings=" + bookings + ", bank=" + bank + "]";
     }
-    
 }

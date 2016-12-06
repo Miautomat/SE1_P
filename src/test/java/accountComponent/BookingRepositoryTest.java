@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import application.Application;
+import bankComponent.Bank;
 
 /**
  * @author Mieke Narjes 05.12.16
@@ -36,7 +37,8 @@ public class BookingRepositoryTest {
         bookingRepository.save(b1);
         bookingRepository.save(b2);
         
-        a1 = new Account("DE86213522400189569726");
+        Bank b = new Bank(00001);
+        a1 = new Account(b, "DE86213522400189569726");
         a1.addBooking(b1);
         a1.addBooking(b2);
         accountRepository.save(a1);

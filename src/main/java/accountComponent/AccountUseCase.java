@@ -1,10 +1,7 @@
 package accountComponent;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import bankComponent.Bank;
 import bankComponent.BankComponentInterface;
 import bankComponent.BankNotFoundException;
 
@@ -34,7 +31,7 @@ public class AccountUseCase implements AccountUseCaseInterface {
             throw new IllegalArgumentException("recipientId must be > 0");
         }
         if (amount <= 0) {
-            // es dürfen nur positive Beträge gebucht werden (gg Missbrauch)
+            // only positive value allowed to prevent abuse
             throw new IllegalArgumentException("the amount must be > 0");
         }
         Account addressor = accountRepository.findOne(addressorId);
@@ -49,18 +46,7 @@ public class AccountUseCase implements AccountUseCaseInterface {
         recipient.addBooking(new Booking(amount));
         accountRepository.save(recipient);
         
-        // increaseBookingStatistics
-        List<Bank> banks = bankComponentInterface.getAllBanks();
-        for (Bank b : banks) {
-            for (Account a : b.getAccounts()) {
-                if (a == addressor) {
-                    bankComponentInterface.increaseBookingStatistic(b.getBankNr());
-                }
-                if (a == recipient) {
-                    bankComponentInterface.increaseBookingStatistic(b.getBankNr());
-                }
-            }
-        }
+        bankComponentInterface.increaseBookingStatistic(addressor.getBank());
     }
     
     @Override

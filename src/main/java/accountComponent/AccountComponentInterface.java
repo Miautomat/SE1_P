@@ -6,24 +6,22 @@ import bankComponent.BankNotFoundException;
 
 public interface AccountComponentInterface {
     /**
-     * Liefert alle Accounts.
-     * 
-     * @return Liste von Account, leere Liste, falls keine Account vorhanden.
+     * @return List of Accounts, empty if no account available
      */
     List<Account> getAllAccounts();
     
     /**
-     * Löscht einen Account.
+     * Deletes an Account
      */
     void deleteAccount(int accountId);
     
     /**
-     * sucht einen Account und gibt ihn zurück
+     * searches for an account and returns it
      */
     Account getAccount(int accountId);
     
     /**
-     * fügt der Komponente einen Account hinzu
+     * adds an account to the component
      */
     void addAccount(Account newAccount);
     
