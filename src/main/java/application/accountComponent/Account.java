@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,8 +20,10 @@ import application.util.AccountNrType;
  */
 @Entity
 public class Account {
+    
+    @Column(unique = true, nullable = false)
     private AccountNrType accountNr;
-    private final int budget;
+    private int budget;
     
     @Id
     @GeneratedValue
@@ -35,6 +38,8 @@ public class Account {
     // man könnte hier den int für BankNr nutzen, um das im UseCase genannte
     // Problem zu verhindern
     // nicht immer sinnvoll, Performancegründe
+    
+    private Account() {}
     
     public Account(Bank bank, AccountNrType accountNr, int budget) throws IllegalArgumentException {
         if (bank == null) {

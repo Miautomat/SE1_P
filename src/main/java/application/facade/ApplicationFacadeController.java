@@ -10,19 +10,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import application.accountComponent.Account;
 import application.accountComponent.AccountComponentInterface;
 import application.accountComponent.AccountNotFoundException;
 import application.bankComponent.BankNotFoundException;
+import application.util.AccountNrType;
+import application.util.TransactionInfo;
 
+@RestController
 public class ApplicationFacadeController {
     
     @Autowired
     AccountComponentInterface accountComponentInterface;
     
-    @RequestMapping("/accounts")
+    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
     public List<Account> getAllAccounts() {
+        System.out.println("Test");
         return accountComponentInterface.getAllAccounts();
     }
     
@@ -31,7 +36,8 @@ public class ApplicationFacadeController {
         return accountComponentInterface.getAccount(id);
     }
     
-    @RequestMapping(value = "/accounts/", method = RequestMethod.POST)
+    // TODO BANK MUSS ÜBERGEBEN WERDEN!!!!!
+    @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Account addAccount(@RequestBody Account account) {
         accountComponentInterface.addAccount(account);
@@ -43,12 +49,12 @@ public class ApplicationFacadeController {
         accountComponentInterface.deleteAccount(id);
     }
     
-    @RequestMapping(value = "/accounts/{id}", method = RequestMethod.POST)
-    public ResponseEntity<?> proceedTransfer(@PathVariable("id") Integer addressorId,
-        @RequestBody int recipientId,
-        @RequestBody int amount) {
+    @RequestMapping(value = "/transaction/{iban}", method = RequestMethod.POST)
+    public ResponseEntity<?> proceedTransfer(@PathVariable("iban") AccountNrType addressorIban,
+        @RequestBody TransactionInfo wrappy) {
         try {
-            accountComponentInterface.proceedTransfer(addressorId, recipientId, amount);
+            accountComponentInterface.proceedTransfer(addressorIban, wrappy.getAccountNr(),
+                wrappy.getAmount());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (AccountNotFoundException | BankNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
