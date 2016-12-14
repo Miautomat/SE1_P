@@ -14,10 +14,8 @@ public interface AccountUseCaseInterface {
      * 
      * @param addressorId
      * @param recipientId
-     * @param amount
-     *            - has to be a positive int
-     * @throws AccountNotFoundException
-     *             if addressor or recipient weren't found
+     * @param amount - has to be a positive int
+     * @throws AccountNotFoundException - if addressor or recipient weren't found
      */
     public void transfer(AccountNrType addressorNr, AccountNrType recipientNr, int amount)
         throws AccountNotFoundException, BankNotFoundException;

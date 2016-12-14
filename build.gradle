@@ -32,8 +32,11 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.springframework.boot:spring-boot-devtools")
     runtime('com.h2database:h2')
+    
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile 'org.assertj:assertj-core:3.5.2'
+    testCompile 'org.mockito:mockito-core:2.0.31-beta'
+    testCompile 'org.assertj:assertj-core:3.6.0'
+    testCompile 'io.rest-assured:rest-assured:3.0.1'
 }
 
 

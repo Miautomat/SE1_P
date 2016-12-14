@@ -33,7 +33,7 @@ public class Account {
     @JoinColumn(name = "account_id")
     private List<Booking> bookings = new ArrayList<>();
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Bank bank;
     // man könnte hier den int für BankNr nutzen, um das im UseCase genannte
     // Problem zu verhindern

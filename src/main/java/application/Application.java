@@ -6,10 +6,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import application.accountComponent.Account;
 import application.accountComponent.AccountRepository;
 import application.bankComponent.Bank;
+import application.bankComponent.BankRepository;
 
 /**
  * @author Mieke Narjes 05.12.16
@@ -18,12 +22,13 @@ import application.bankComponent.Bank;
 public class Application {
     
     @Bean
-    CommandLineRunner init(AccountRepository accountRepository) {
+    CommandLineRunner init(AccountRepository accountRepository, BankRepository bankrepository) {
         return args -> {
-            
-            Account a1 = new Account(new Bank(1), "DE86213522400189569726");
-            Account a2 = new Account(new Bank(2), "BU86213522400189569726");
-            Account a3 = new Account(new Bank(3), "AD86213522400189569726");
+            Bank onlyBank = new Bank(1);
+            bankrepository.save(onlyBank);
+            Account a1 = new Account(onlyBank, "DE86213522400189569726");
+            Account a2 = new Account(onlyBank, "BU86213522400189569726");
+            Account a3 = new Account(onlyBank, "AD86213522400189569726");
             accountRepository.save(Arrays.asList(a1, a2, a3));
         };
     }
@@ -36,4 +41,19 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                    .allowedHeaders("Content-Type", "Accept", "X-Requested-With", "remember-me")
+                    .allowCredentials(true);
+            }
+        };
+    }
+    
 }

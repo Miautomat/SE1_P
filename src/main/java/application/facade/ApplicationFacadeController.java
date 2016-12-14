@@ -45,16 +45,17 @@ public class ApplicationFacadeController {
     }
     
     @RequestMapping(value = "/accounts/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAccount(@PathVariable("id") Integer id) {
         accountComponentInterface.deleteAccount(id);
     }
     
     @RequestMapping(value = "/transaction/{iban}", method = RequestMethod.POST)
     public ResponseEntity<?> proceedTransfer(@PathVariable("iban") AccountNrType addressorIban,
-        @RequestBody TransactionInfo wrappy) {
+        @RequestBody TransactionInfo info) {
         try {
-            accountComponentInterface.proceedTransfer(addressorIban, wrappy.getAccountNr(),
-                wrappy.getAmount());
+            accountComponentInterface.proceedTransfer(addressorIban, info.getAccountNr(),
+                info.getAmount());
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (AccountNotFoundException | BankNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,5 +63,10 @@ public class ApplicationFacadeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
+    }
+    
+    @RequestMapping(value = "/accounts/{iban}/budget", method = RequestMethod.GET)
+    public int calculateBudget(@PathVariable("iban") AccountNrType iban) {
+        return accountComponentInterface.calculateBudget(iban);
     }
 }
